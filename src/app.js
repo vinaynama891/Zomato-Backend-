@@ -12,7 +12,7 @@ const app = express();
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors({
-    origin: "https://kaleidoscopic-gaufre-13284f.netlify.app/",
+    origin: "https://prismatic-horse-652d84.netlify.app/",
     credentials: true
 }))
 
