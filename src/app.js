@@ -12,15 +12,9 @@ const app = express();
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors({
-  origin: (origin, callback) => {
-    // Allow local frontend dev servers like Vite on 5173, 5174, etc.
-    if (!origin || /^http:\/\/localhost:\d+$/.test(origin)) {
-      return callback(null, true);
-    }
-    return callback(new Error('Not allowed by CORS'));
-  },
-  credentials: true
-}));
+    origin: "https://kaleidoscopic-gaufre-13284f.netlify.app/",
+    credentials: true
+}))
 
 
 app.get("/",(req,res)=>{
