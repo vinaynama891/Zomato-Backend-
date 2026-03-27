@@ -14,7 +14,7 @@ app.use(express.json());
 
 app.use(cors({
   origin: [
-    "https://zomato-backend-1-4edy.onrender.com/"
+    "https://prismatic-horse-652d84.netlify.app/"
   ],
   credentials: true
 }));
