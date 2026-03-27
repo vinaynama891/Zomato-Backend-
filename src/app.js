@@ -11,10 +11,13 @@ const userRoutes = require('./routes/user.routes');
 const app = express();
 app.use(cookieParser());
 app.use(express.json());
+
 app.use(cors({
-    origin: "https://prismatic-horse-652d84.netlify.app/",
-    credentials: true
-}))
+  origin: [
+    "https://zomato-backend-1-4edy.onrender.com/"
+  ],
+  credentials: true
+}));
 
 
 app.get("/",(req,res)=>{

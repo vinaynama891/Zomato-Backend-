@@ -5,6 +5,16 @@ const { v4: uuid} = require("uuid");
 const foodPartnerModel = require("../models/foodpartner.model")
 const storageService = require('../services/storage.service');
 
+// Cookie options for cross-site auth (frontend domain != backend domain)
+const cookieOptions = (() => {
+    const isProd = process.env.NODE_ENV === 'production';
+    return {
+        httpOnly: true,
+        sameSite: isProd ? 'none' : 'lax',
+        secure: isProd
+    };
+})();
+
 async function registerUser(req,res) {
     const {fullName,email,password} = req.body;
     const isUserAlreadyExist = await userModel.findOne({
@@ -26,7 +36,7 @@ async function registerUser(req,res) {
     const token = jwt.sign({
         id:user._id,    
     },process.env.JWT_SECRET)
-    res.cookie("token" , token)
+    res.cookie("token" , token, cookieOptions)
     res.status(201).json({
         message:"User Registered Successfully",
         user:{
@@ -56,7 +66,7 @@ async function loginUser(req,res){
         id:user._id,
     },process.env.JWT_SECRET)
 
-    res.cookie("token",token)
+    res.cookie("token",token, cookieOptions)
 
     return res.status(200).json({
         message:"User logged in Successfully",
@@ -70,7 +80,7 @@ async function loginUser(req,res){
 }
 
 function logoutUser(req,res){
-    res.clearCookie("token", { path: "/" });
+    res.clearCookie("token", { path: "/", ...cookieOptions });
     res.status(200).json({
         message:"User logged out successfully"
     })
@@ -153,7 +163,7 @@ async function registerFoodPartner(req,res){
             id: foodPartner._id,
         },process.env.JWT_SECRET)
 
-        res.cookie("token",token)
+        res.cookie("token",token, cookieOptions)
 
         res.status(201).json({
             message:"Food Partner Registered Successfully",
@@ -215,7 +225,7 @@ async function loginFoodPartner(req,res) {
         id:foodPartner._id,
     },process.env.JWT_SECRET)
 
-    res.cookie("token",token)
+    res.cookie("token",token, cookieOptions)
 
     res.status(200).json({
         message:"Food Partner Logged in Successfully",
@@ -232,7 +242,7 @@ async function loginFoodPartner(req,res) {
 }
 
 function logoutFoodPartner(req,res){
-    res.clearCookie("token", { path: "/" });
+    res.clearCookie("token", { path: "/", ...cookieOptions });
     res.status(200).json({
         message:"Food Partner Logged Out Succcessfully"
     });
