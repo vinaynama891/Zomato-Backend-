@@ -12,10 +12,7 @@ const app = express();
 app.use(cookieParser());
 app.use(express.json());
 
-const corsOrigins = (process.env.CORS_ORIGINS || '')
-  .split(',')
-  .map(s => s.trim())
-  .filter(Boolean);
+
 
 app.use(cors({
   origin: (origin, callback) => {
